@@ -1,0 +1,16 @@
+{
+  "name": "Gulp",
+  "version": "1.0.0",
+  "description": "Gulpfile",
+  "devDependencies": {
+    "del": "^1.1.1",
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.3",
+    "gulp-imagemin": "^2.1.0",
+    "gulp-jade": "^0.11.0",
+    "gulp-sass": "^1.3.0",
+    "imagemin-pngquant": "^4.0.0"
+  },
+  "author": "Jerome Lachaud",
+  "license": "MIT"
+}
