@@ -1,7 +1,7 @@
 {
-  "name": "Gulp",
+  "name": "microFramework",
   "version": "1.0.0",
-  "description": "Gulpfile",
+  "description": "minimal front-end framework",
   "devDependencies": {
     "del": "^1.1.1",
     "gulp": "^3.8.10",
