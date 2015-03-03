@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var del = require('del');
-// var sass = require('gulp-sass');
+var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var jade = require('gulp-jade');
 var imagemin = require('gulp-imagemin');
@@ -26,11 +26,11 @@ gulp.task('images', function () {
         .pipe(gulp.dest('./build/img'));
 });
 
-/*gulp.task('sass', function () {
+gulp.task('sass', function () {
     gulp.src('./src/scss/*.scss')
         .pipe(sass())
         .pipe(gulp.dest('./build/css'));
-});*/
+});
 
 gulp.task('concat', function () {
 	return gulp.src('./src/js/*.js')
@@ -55,7 +55,5 @@ gulp.task('watch', function() {
 	gulp.watch('./src/js/*.js', ['concat']);
 });
 
-
-// The default task (called when you run `gulp` from cli)
 gulp.task('dev', ['watch', 'copy', 'images', 'templates', 'concat']);
 gulp.task('build', ['clean', 'copy', 'images', 'templates', 'concat']);
