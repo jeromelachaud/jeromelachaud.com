@@ -4,11 +4,12 @@
   "description": "minimal front-end framework",
   "devDependencies": {
     "del": "^1.1.1",
-    "gulp": "^3.8.10",
+    "gulp": "^3.8.11",
     "gulp-concat": "^2.4.3",
     "gulp-imagemin": "^2.1.0",
     "gulp-jade": "^0.11.0",
-    "gulp-sass": "^1.3.0",
+    "gulp-pleeease": "^1.2.0",
+    "gulp-sass": "^1.3.3",
     "imagemin-pngquant": "^4.0.0"
   },
   "author": "Jerome Lachaud",
