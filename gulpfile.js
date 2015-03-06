@@ -1,23 +1,28 @@
-var gulp = require('gulp');
-var del = require('del');
-var sass = require('gulp-sass');
-var please = require('gulp-pleeease');
-var concat = require('gulp-concat');
-var jade = require('gulp-jade');
-var imagemin = require('gulp-imagemin');
-var pngquant = require('imagemin-pngquant');
+var gulp 		= require('gulp');
+var del 		= require('del');
+var sass 		= require('gulp-sass');
+var please 		= require('gulp-pleeease');
+var concat 		= require('gulp-concat');
+var uglify 		= require('gulp-uglify');
+var jade 		= require('gulp-jade');
+var runSequence = require('run-sequence');
+var browserSync = require('browser-sync');
+var reload      = browserSync.reload;
+//var imagemin = require('gulp-imagemin');
+//var pngquant = require('imagemin-pngquant');
 
 gulp.task('clean', function (cb) {
 	del(['./build/'], cb);
 });
 
-gulp.task('copy', ['clean'],function () {
-	return gulp.src(['./src/css/**/*.css', './src/js/**/*.js'], {
+gulp.task('copy',function () {
+	return gulp.src('./src/js/**/*.js', {
 		base: 'src'
-	}).pipe(gulp.dest('./build'));
+	}).pipe(gulp.dest('./build'))
+	.pipe(reload({stream: true}));
 });
 
-gulp.task('sass', ['clean'], function () {
+gulp.task('sass', function () {
     return gulp.src('./src/scss/**/*.scss')
         .pipe(sass({errLogToConsole: true}))
         .pipe(please({
@@ -26,7 +31,8 @@ gulp.task('sass', ['clean'], function () {
         		browsers: ['last 2 versions']
         	}
         }))
-        .pipe(gulp.dest('./build/css'));
+        .pipe(gulp.dest('./build/css'))
+        .pipe(reload({stream: true}));
 });
 
 gulp.task('images', function () {
@@ -35,14 +41,16 @@ gulp.task('images', function () {
             progressive: true,
             use: [pngquant()]
         }))
-        .pipe(gulp.dest('./build/img'));
+        .pipe(gulp.dest('./build/img'))
+        .pipe(reload({stream: true}));
 });
 
 gulp.task('build-js', function () {
 	return gulp.src('./src/js/**/*.js')
 		.pipe(concat('app.js'))
         .pipe(uglify({preserveComments: 'some'})) // Keep some comments
-		.pipe(gulp.dest('./build/js'));
+		.pipe(gulp.dest('./build/js'))
+		.pipe(reload({stream: true}));
 });
 
 gulp.task('templates', function() {
@@ -53,15 +61,31 @@ gulp.task('templates', function() {
 			locals: YOUR_LOCALS,
 			pretty: true
 		}))
-		.pipe(gulp.dest('./build/'));
+		.pipe(gulp.dest('./build/'))
+		.pipe(reload({ stream:true }));
+
 });
 
-gulp.task('watch', function() {
+gulp.task('serve',['templates','sass','copy'], function() {
+  browserSync({
+    server: {
+      baseDir: 'build'
+    }
+  });
+
 	gulp.watch('./src/jade/**/*.jade', ['templates']);
 	gulp.watch('./src/scss/**/*.scss', ['sass']);
 	gulp.watch('./src/css/**/*.css', ['copy']);
 	gulp.watch('./src/js/**/*.js', ['copy']);
 });
 
-gulp.task('dev', ['watch', 'sass', 'copy', 'images', 'templates']);
-gulp.task('build', ['clean','sass', 'images', 'build-js', 'templates']);
+gulp.task('build', ['clean', 'images', 'sass', 'copy', 'build-js', 'templates']);
+gulp.task('dev', ['serve', 'sass', 'copy', 'templates']);
+
+
+gulp.task('default', ['clean'], function (cb) {
+  runSequence('dev', ['serve', 'sass', 'copy', 'templates'], cb);
+});
+
+
+
