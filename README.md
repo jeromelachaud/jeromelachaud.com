@@ -4,4 +4,3 @@ Nothing fancy, just the basic stuff.
 - Scss
 - Gulp
 - jQuery
-- Bootstrap
