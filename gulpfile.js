@@ -1,10 +1,10 @@
-var gulp 		= require('gulp');
-var del 		= require('del');
-var sass 		= require('gulp-sass');
-var please 		= require('gulp-pleeease');
-var concat 		= require('gulp-concat');
-var uglify 		= require('gulp-uglify');
-var jade 		= require('gulp-jade');
+var gulp 		    = require('gulp');
+var del 		    = require('del');
+var sass 		    = require('gulp-sass');
+var please 		  = require('gulp-pleeease');
+var concat      = require('gulp-concat');
+var uglify 		  = require('gulp-uglify');
+var jade 		    = require('gulp-jade');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var reload      = browserSync.reload;
@@ -46,7 +46,7 @@ gulp.task('images', function () {
 });
 
 gulp.task('build-js', function () {
-	return gulp.src('./src/js/**/*.js')
+	return gulp.src(['./src/js/**/*.js', , '!./src/js/vendor/*.js'])
 		.pipe(concat('app.js'))
         .pipe(uglify({preserveComments: 'some'})) // Keep some comments
 		.pipe(gulp.dest('./build/js'))
@@ -63,29 +63,27 @@ gulp.task('templates', function() {
 		}))
 		.pipe(gulp.dest('./build/'))
 		.pipe(reload({ stream:true }));
-
 });
 
-gulp.task('serve',['templates','sass','copy'], function() {
+gulp.task('serve',['dev'], function() {
   browserSync({
     server: {
       baseDir: 'build'
     }
   });
-
 	gulp.watch('./src/jade/**/*.jade', ['templates']);
 	gulp.watch('./src/scss/**/*.scss', ['sass']);
 	gulp.watch('./src/css/**/*.css', ['copy']);
 	gulp.watch('./src/js/**/*.js', ['copy']);
 });
 
-gulp.task('build', ['clean', 'images', 'sass', 'copy', 'build-js', 'templates']);
-gulp.task('dev', ['serve', 'sass', 'copy', 'templates']);
-
+gulp.task('build', ['sass', 'copy', 'build-js', 'templates']);
+gulp.task('dev', ['sass', 'copy', 'templates']);
 
 gulp.task('default', ['clean'], function (cb) {
-  runSequence('dev', ['serve', 'sass', 'copy', 'templates'], cb);
+  runSequence('dev', ['sass', 'copy', 'templates'], cb);
 });
 
-
-
+gulp.task('builder', ['clean'], function (cb) {
+  runSequence('build', ['sass', 'copy', 'build-js', 'templates'], cb);
+});
