@@ -85,5 +85,5 @@ gulp.task('default', ['clean'], function (cb) {
 });
 
 gulp.task('builder', ['clean'], function (cb) {
-  runSequence('build', ['sass', 'copy', 'build-js', 'templates'], cb);
+  runSequence('build', ['sass', 'build-js', 'templates'], cb);
 });
