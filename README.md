@@ -2,5 +2,6 @@
 Nothing fancy, just the basic stuff.
 - Jade
 - Scss
-- Gulp
 - jQuery
+- Gulp
+- BrowserSync
