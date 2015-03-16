@@ -19,12 +19,6 @@ gulp.task('clean', function (cb) {
 	del(['./build/'], cb);
 });
 
-gulp.task('copy',function () {
-	return gulp.src(['./src/js/**/*.js', './src/css/**/*.css'], {base: 'src' })
-  .pipe(gulp.dest('./build'))
-  .pipe(reload({stream: true}));
-});
-
 gulp.task('sass', function () {
   return gulp.src(['./src/scss/*.scss', './src/scss/vendors/*.scss'])
   .pipe(sass({errLogToConsole: true}))
@@ -48,11 +42,11 @@ gulp.task('images', function () {
 });
 
 gulp.task('javascript', function () {
-  return gulp.src(['./src/js/vendors/*.js', './src/js/**/*.js'])
-  .pipe(concat('app.js'))
+  return gulp.src(['./src/js/vendors/*.js', './src/js/**/*.js'], {base: 'src' })
+  .pipe(gulpif(argv.production, concat('js/app.js')))
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
   .pipe(gulpif(argv.production, uglify({preserveComments: 'some'}))) // Keep some comments
-  .pipe(gulp.dest('./build/js'))
+  .pipe(gulp.dest('./build/'))
   .pipe(reload({stream: true}));
 });
 
@@ -68,7 +62,7 @@ gulp.task('templates', function() {
   .pipe(reload({ stream:true }));
 });
 
-gulp.task('dev',['prep'], function() {
+gulp.task('dev',['builder'], function() {
   browserSync({
     server: {
       baseDir: 'build'
@@ -76,12 +70,7 @@ gulp.task('dev',['prep'], function() {
   });
   gulp.watch('./src/jade/**/*.jade', ['templates']);
   gulp.watch('./src/scss/**/*.scss', ['sass']);
-  gulp.watch('./src/css/**/*.css', ['copy']);
   gulp.watch('./src/js/**/*.js', ['copy']);
-});
-
-gulp.task('prep', ['clean'], function (cb) {
-  runSequence(['sass', 'copy', 'templates'], cb);
 });
 
 gulp.task('builder', ['clean'], function (cb) {
