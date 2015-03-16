@@ -7,6 +7,6 @@ Nothing fancy, just the basic stuff.
 - Gulp
 - BrowserSync
 
-## usaga
+## usage
 - run "gulp" for developement
 - run "gulp --production" for production 
