@@ -6,3 +6,7 @@ Nothing fancy, just the basic stuff.
 - Bootstrap
 - Gulp
 - BrowserSync
+
+## usaga
+- run "gulp" for developement
+- run "gulp --production" for production 
