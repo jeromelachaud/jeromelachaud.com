@@ -12,64 +12,88 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     sass = require('gulp-sass'),
     uglify = require('gulp-uglify'),
-    imagemin = require('gulp-imagemin'),
+    imagemin = require('gulp-imagemin');
+
+var basePaths = {
+  src: 'src/',
+  dest: 'build/',
+};
+
+var paths = {
+  styles: {
+    src: basePaths.src + 'scss/',
+    dest: basePaths.dest + 'css/'
+  },
+  javascript: {
+    src: basePaths.src + 'js/',
+    dest: basePaths.dest + 'js/'
+  },
+  images: {
+    src: basePaths.src + 'img/',
+    dest: basePaths.dest + 'img/'
+  },
+  templates: {
+    src: basePaths.src + 'jade/',
+    dest: basePaths.dest
+  }
+}
 
 gulp.task('clean', function (cb) {
-	del(['./build/'], cb);
+	del([basePaths.dest], cb);
 });
 
 gulp.task('sass', function () {
-  return gulp.src(['./src/scss/*.scss', './src/scss/vendors/*.scss'])
+  return gulp.src([paths.styles.src + '*.scss', paths.styles.src + '/vendors/*.scss'])
   .pipe(sass({errLogToConsole: true}))
   .pipe(autoprefixer({
     autoprefixer: {browsers: ['last 2 versions']}  
   }))
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
   .pipe(gulpif(argv.production, minifyCSS({keepBreaks:false})))
-  .pipe(gulp.dest('./build/css'))
+  .pipe(gulp.dest((paths.styles.dest)))
   .pipe(reload({stream: true}));
 });
 
 gulp.task('images', function () {
-  return gulp.src('./src/img/**/*.*')
+  return gulp.src(paths.images.src + '/**/*.*')
   .pipe(imagemin({
     progressive: true,
     optimizationLevel : 8
   }))
-  .pipe(gulp.dest('./build/img'))
+  .pipe(gulp.dest(paths.images.dest))
   .pipe(reload({stream: true}));
 });
 
 gulp.task('javascript', function () {
-  return gulp.src(['./src/js/vendors/*.js', './src/js/**/*.js'], {base: 'src' })
+  return gulp.src([paths.javascript.src + 'vendors/*.js', paths.javascript.src + '**/*.js'], {base: 'src' })
   .pipe(gulpif(argv.production, concat('js/app.js')))
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
   .pipe(gulpif(argv.production, uglify({preserveComments: 'some'}))) // Keep some comments
-  .pipe(gulp.dest('./build/'))
+  .pipe(gulp.dest(basePaths.dest))
   .pipe(reload({stream: true}));
 });
 
 gulp.task('templates', function() {
 	'use strict';
 	var YOUR_LOCALS = {};
-	return gulp.src('./src/jade/*.jade')
+	return gulp.src(paths.templates.src + '*.jade')
   .pipe(jade({
     locals: YOUR_LOCALS,
     pretty: true
   }))
-  .pipe(gulp.dest('./build/'))
+  .pipe(gulp.dest(basePaths.dest))
   .pipe(reload({ stream:true }));
 });
 
-gulp.task('dev',['builder'], function() {
+gulp.task('default',['builder'], function() {
   browserSync({
     server: {
-      baseDir: 'build'
+      baseDir: basePaths.dest
     }
   });
-  gulp.watch('./src/jade/**/*.jade', ['templates']);
-  gulp.watch('./src/scss/**/*.scss', ['sass']);
-  gulp.watch('./src/js/**/*.js', ['copy']);
+  gulp.watch(paths.templates.src + '**/*.jade', ['templates']);
+  gulp.watch(paths.styles.src +'**/*.scss', ['sass']);
+  gulp.watch(paths.javascript.src + '**/*.js', ['javascript']);
 });
 
 gulp.task('builder', ['clean'], function (cb) {
