@@ -12,8 +12,7 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     sass = require('gulp-sass'),
     uglify = require('gulp-uglify'),
-//var imagemin = require('gulp-imagemin');
-//var pngquant = require('imagemin-pngquant');
+    imagemin = require('gulp-imagemin'),
 
 gulp.task('clean', function (cb) {
 	del(['./build/'], cb);
@@ -35,7 +34,7 @@ gulp.task('images', function () {
   return gulp.src('./src/img/**/*.*')
   .pipe(imagemin({
     progressive: true,
-    use: [pngquant()]
+    optimizationLevel : 8
   }))
   .pipe(gulp.dest('./build/img'))
   .pipe(reload({stream: true}));
@@ -74,5 +73,5 @@ gulp.task('dev',['builder'], function() {
 });
 
 gulp.task('builder', ['clean'], function (cb) {
-  runSequence(['sass', 'javascript', 'templates'], cb);
+  runSequence(['sass', 'javascript', 'templates', 'images'], cb);
 });
