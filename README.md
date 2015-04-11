@@ -8,5 +8,5 @@ Nothing fancy, just the basic stuff.
 - BrowserSync
 
 ## usage
-- run "gulp" for developement
+- run "gulp --dev" for developement
 - run "gulp --production" for production 
