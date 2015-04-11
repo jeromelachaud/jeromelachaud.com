@@ -12,7 +12,8 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     sass = require('gulp-sass'),
     uglify = require('gulp-uglify'),
-    imagemin = require('gulp-imagemin');
+    imagemin = require('gulp-imagemin'),
+    sourcemaps = require('gulp-sourcemaps');
 
 var basePaths = {
   src: 'src/',
@@ -44,12 +45,14 @@ gulp.task('clean', function (cb) {
 
 gulp.task('sass', function () {
   return gulp.src([paths.styles.src + '*.scss', paths.styles.src + '/vendors/*.scss'])
+  .pipe(gulpif(argv.dev, sourcemaps.init()))
   .pipe(sass({errLogToConsole: true}))
   .pipe(autoprefixer({
     autoprefixer: {browsers: ['last 2 versions']}  
   }))
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
   .pipe(gulpif(argv.production, minifyCSS({keepBreaks:false})))
+  .pipe(gulpif(argv.dev, sourcemaps.write()))
   .pipe(gulp.dest((paths.styles.dest)))
   .pipe(reload({stream: true}));
 });
