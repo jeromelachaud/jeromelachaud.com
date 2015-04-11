@@ -2,11 +2,13 @@
 Nothing fancy, just the basic stuff.
 - Jade
 - Scss
-- jQuery
 - Bootstrap
-- Gulp
+- Normalize
+- jQuery
 - BrowserSync
+
+Powered by Gulp
 
 ## usage
 - run "gulp --dev" for developement
-- run "gulp --production" for production 
+- run "gulp --production" for production (no sourcemaps + minify + uglify)
