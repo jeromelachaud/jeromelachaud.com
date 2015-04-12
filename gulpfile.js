@@ -97,6 +97,7 @@ gulp.task('default',['builder'], function() {
   gulp.watch(paths.templates.src + '**/*.jade', ['templates']);
   gulp.watch(paths.styles.src +'**/*.scss', ['sass']);
   gulp.watch(paths.javascript.src + '**/*.js', ['javascript']);
+  gulp.watch(paths.images.src + '**/*.*', ['images']);
 });
 
 gulp.task('builder', ['clean'], function (cb) {
