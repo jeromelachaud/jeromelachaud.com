@@ -36,12 +36,22 @@ var paths = {
   templates: {
     src: basePaths.src + 'jade/',
     dest: basePaths.dest
+  },
+  templates: {
+    src: basePaths.src + 'fonts/',
+    dest: basePaths.dest + ''
   }
 }
 
 gulp.task('clean', function (cb) {
 	del([basePaths.dest], cb);
 });
+
+gulp.task('copyfonts', function() {
+   return gulp.src('./bower_components/font-awesome/fonts/**/*.{ttf,woff,eof,svg}')
+   .pipe(gulp.dest('./fonts'));
+});
+
 
 gulp.task('sass', function () {
   return gulp.src([paths.styles.src + '*.scss', paths.styles.src + '/vendors/*.scss'])
@@ -68,11 +78,11 @@ gulp.task('images', function () {
 });
 
 gulp.task('javascript', function () {
-  return gulp.src([paths.javascript.src + 'vendors/*.js', paths.javascript.src + '**/*.js'], {base: 'src' })
-  .pipe(gulpif(argv.production, concat('js/app.js')))
+  return gulp.src([paths.javascript.src + 'vendors/*.js', paths.javascript.src + '**/*.js'])
+  .pipe(gulpif(argv.production, concat('app.js')))
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
   .pipe(gulpif(argv.production, uglify({preserveComments: 'some'}))) // Keep some comments
-  .pipe(gulp.dest(basePaths.dest))
+  .pipe(gulp.dest((paths.javascript.dest)))
   .pipe(reload({stream: true}));
 });
 
