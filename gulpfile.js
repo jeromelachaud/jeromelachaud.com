@@ -37,21 +37,15 @@ var paths = {
     src: basePaths.src + 'jade/',
     dest: basePaths.dest
   },
-  templates: {
+  fonts: {
     src: basePaths.src + 'fonts/',
-    dest: basePaths.dest + ''
+    dest: basePaths.dest + 'css/fonts/'
   }
 }
 
 gulp.task('clean', function (cb) {
 	del([basePaths.dest], cb);
 });
-
-gulp.task('copyfonts', function() {
-   return gulp.src('./bower_components/font-awesome/fonts/**/*.{ttf,woff,eof,svg}')
-   .pipe(gulp.dest('./fonts'));
-});
-
 
 gulp.task('sass', function () {
   return gulp.src([paths.styles.src + '*.scss', paths.styles.src + '/vendors/*.scss'])
@@ -98,6 +92,11 @@ gulp.task('templates', function() {
   .pipe(reload({ stream:true }));
 });
 
+gulp.task('fonts', function() {
+  gulp.src(paths.fonts.src + '**/*')
+  .pipe(gulp.dest('build/css/fonts/'))
+});
+
 gulp.task('default',['builder'], function() {
   browserSync({
     server: {
@@ -108,8 +107,9 @@ gulp.task('default',['builder'], function() {
   gulp.watch(paths.styles.src +'**/*.scss', ['sass']);
   gulp.watch(paths.javascript.src + '**/*.js', ['javascript']);
   gulp.watch(paths.images.src + '**/*.*', ['images']);
+  gulp.watch(paths.fonts.src + '**/*', ['fonts']);
 });
 
 gulp.task('builder', ['clean'], function (cb) {
-  runSequence(['sass', 'javascript', 'templates', 'images'], cb);
+  runSequence(['sass', 'javascript', 'templates', 'images', 'fonts'], cb);
 });
