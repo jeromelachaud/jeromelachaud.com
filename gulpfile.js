@@ -1,13 +1,15 @@
+'use strict';
+
 var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     argv = require('yargs').argv,
     browserSync = require('browser-sync'),
     concat = require('gulp-concat'),
     del = require('del'),
-    size = require('gulp-size');
+    size = require('gulp-size'),
     gulpif = require('gulp-if'),
     jade = require('gulp-jade'),
-    minifyCSS = require('gulp-minify-css');
+    minifyCSS = require('gulp-minify-css'),
     reload = browserSync.reload,
     rename = require('gulp-rename'),
     runSequence = require('run-sequence'),
@@ -42,7 +44,7 @@ var paths = {
     src: basePaths.src + 'fonts/',
     dest: basePaths.dest + 'css/fonts/'
   }
-}
+};
 
 gulp.task('clean', function (cb) {
 	del([basePaths.dest], cb);
@@ -70,11 +72,10 @@ gulp.task('javascript', function () {
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
   .pipe(gulpif(argv.production, uglify({preserveComments: 'some'}))) // Keep some comments
   .pipe(gulp.dest((paths.javascript.dest)))
-  .pipe(size({title: 'javascript'}))
+  .pipe(size({title: 'javascript'}));
 });
 
 gulp.task('templates', function() {
-	'use strict';
 	var YOUR_LOCALS = {};
 	return gulp.src(paths.templates.src + '*.jade')
   .pipe(jade({
