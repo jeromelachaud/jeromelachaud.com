@@ -86,7 +86,7 @@ gulp.task('templates', function() {
 });
 
 gulp.task('images', function () {
-  return gulp.src(paths.images.src + '/**/*.*')
+  return gulp.src(paths.images.src + '**/*.*')
   .pipe(imagemin({
     progressive: true,
     optimizationLevel : 8
