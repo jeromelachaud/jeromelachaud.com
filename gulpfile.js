@@ -61,23 +61,12 @@ gulp.task('sass', function () {
   .pipe(reload({stream: true}));
 });
 
-gulp.task('images', function () {
-  return gulp.src(paths.images.src + '/**/*.*')
-  .pipe(imagemin({
-    progressive: true,
-    optimizationLevel : 8
-  }))
-  .pipe(gulp.dest(paths.images.dest))
-  .pipe(reload({stream: true}));
-});
-
 gulp.task('javascript', function () {
   return gulp.src([paths.javascript.src + 'vendors/*.js', paths.javascript.src + '**/*.js'])
   .pipe(gulpif(argv.production, concat('app.js')))
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
   .pipe(gulpif(argv.production, uglify({preserveComments: 'some'}))) // Keep some comments
-  .pipe(gulp.dest((paths.javascript.dest)))
-  .pipe(reload({stream: true}));
+  .pipe(gulp.dest((paths.javascript.dest)));
 });
 
 gulp.task('templates', function() {
@@ -88,8 +77,16 @@ gulp.task('templates', function() {
     locals: YOUR_LOCALS,
     pretty: true
   }))
-  .pipe(gulp.dest(basePaths.dest))
-  .pipe(reload({ stream:true }));
+  .pipe(gulp.dest(basePaths.dest));
+});
+
+gulp.task('images', function () {
+  return gulp.src(paths.images.src + '/**/*.*')
+  .pipe(imagemin({
+    progressive: true,
+    optimizationLevel : 8
+  }))
+  .pipe(gulp.dest(paths.images.dest));
 });
 
 gulp.task('fonts', function() {
@@ -103,11 +100,11 @@ gulp.task('default',['builder'], function() {
       baseDir: basePaths.dest
     }
   });
-  gulp.watch(paths.templates.src + '**/*.jade', ['templates']);
-  gulp.watch(paths.styles.src +'**/*.scss', ['sass']);
-  gulp.watch(paths.javascript.src + '**/*.js', ['javascript']);
-  gulp.watch(paths.images.src + '**/*.*', ['images']);
-  gulp.watch(paths.fonts.src + '**/*', ['fonts']);
+  gulp.watch(paths.styles.src +'**/*.scss', ['sass',]);
+  gulp.watch(paths.javascript.src + '**/*.js', ['javascript', reload]);
+  gulp.watch(paths.templates.src + '**/*.jade', ['templates', reload]);
+  gulp.watch(paths.images.src + '**/*.*', ['images', reload]);
+  gulp.watch(paths.fonts.src + '**/*', ['fonts', reload]);
 });
 
 gulp.task('builder', ['clean'], function (cb) {
