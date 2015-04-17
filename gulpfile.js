@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync'),
     concat = require('gulp-concat'),
     del = require('del'),
+    size = require('gulp-size');
     gulpif = require('gulp-if'),
     jade = require('gulp-jade'),
     minifyCSS = require('gulp-minify-css');
@@ -58,7 +59,9 @@ gulp.task('sass', function () {
   .pipe(gulpif(argv.production, minifyCSS({keepBreaks:false})))
   .pipe(gulpif(argv.dev, sourcemaps.write()))
   .pipe(gulp.dest((paths.styles.dest)))
-  .pipe(reload({stream: true}));
+  .pipe(reload({stream: true}))
+  .pipe(size({title: 'styles'}));
+
 });
 
 gulp.task('javascript', function () {
@@ -66,7 +69,8 @@ gulp.task('javascript', function () {
   .pipe(gulpif(argv.production, concat('app.js')))
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
   .pipe(gulpif(argv.production, uglify({preserveComments: 'some'}))) // Keep some comments
-  .pipe(gulp.dest((paths.javascript.dest)));
+  .pipe(gulp.dest((paths.javascript.dest)))
+  .pipe(size({title: 'javascript'}))
 });
 
 gulp.task('templates', function() {
@@ -77,7 +81,8 @@ gulp.task('templates', function() {
     locals: YOUR_LOCALS,
     pretty: true
   }))
-  .pipe(gulp.dest(basePaths.dest));
+  .pipe(gulp.dest(basePaths.dest))
+  .pipe(size({title: 'html'}));
 });
 
 gulp.task('images', function () {
@@ -86,12 +91,14 @@ gulp.task('images', function () {
     progressive: true,
     optimizationLevel : 8
   }))
-  .pipe(gulp.dest(paths.images.dest));
+  .pipe(gulp.dest(paths.images.dest))
+  .pipe(size({title: 'images'}));
 });
 
 gulp.task('fonts', function() {
   gulp.src(paths.fonts.src + '**/*')
   .pipe(gulp.dest('build/css/fonts/'))
+  .pipe(size({title: 'fonts'}));
 });
 
 gulp.task('default',['builder'], function() {
@@ -100,7 +107,7 @@ gulp.task('default',['builder'], function() {
       baseDir: basePaths.dest
     }
   });
-  gulp.watch(paths.styles.src +'**/*.scss', ['sass',]);
+  gulp.watch(paths.styles.src +'**/*.scss', ['sass']);
   gulp.watch(paths.javascript.src + '**/*.js', ['javascript', reload]);
   gulp.watch(paths.templates.src + '**/*.jade', ['templates', reload]);
   gulp.watch(paths.images.src + '**/*.*', ['images', reload]);
