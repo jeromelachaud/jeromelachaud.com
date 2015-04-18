@@ -1,5 +1,5 @@
-(function () {
+'use strict';
 
-console.log('app');
-
+(function() {
+	//awesome code
 }());
