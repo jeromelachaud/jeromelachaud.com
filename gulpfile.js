@@ -9,6 +9,7 @@ var del = require('del');
 var size = require('gulp-size');
 var gulpif = require('gulp-if');
 var jade = require('gulp-jade');
+var jshint = require('gulp-jshint');
 var minifyCSS = require('gulp-minify-css');
 var reload = browserSync.reload;
 var rename = require('gulp-rename');
@@ -52,8 +53,7 @@ gulp.task('clean', function (cb) {
 
 gulp.task('sass', function () {
 	return gulp.src([
-		paths.styles.src + '*.scss',
-		paths.styles.src + '/vendors/*.scss'
+		paths.styles.src + '**/*.scss',
 	])
 	.pipe(gulpif(argv.dev, sourcemaps.init()))
 	.pipe(sass({errLogToConsole: true}))
@@ -71,9 +71,9 @@ gulp.task('sass', function () {
 
 gulp.task('javascript', function () {
 	return gulp.src([
-		paths.javascript.src + 'vendors/*.js',
 		paths.javascript.src + '**/*.js'
 	])
+	.pipe(jshint('.jshintrc'))
 	.pipe(gulpif(argv.production, concat('app.js')))
 	.pipe(gulpif(argv.production, rename({suffix: '.min'})))
 	.pipe(gulpif(argv.production, uglify({preserveComments: 'some'}))) // Keep some comments
@@ -103,7 +103,7 @@ gulp.task('images', function () {
 });
 
 gulp.task('fonts', function() {
-	gulp.src(paths.fonts.src + '**/*')
+	gulp.src(paths.fonts.src + '**/*.*')
 	.pipe(gulp.dest('build/css/fonts/'))
 	.pipe(size({title: 'fonts'}));
 });
