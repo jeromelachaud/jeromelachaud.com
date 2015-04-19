@@ -66,19 +66,20 @@ gulp.task('sass', function () {
 	.pipe(gulp.dest((paths.styles.dest)))
 	.pipe(reload({stream: true}))
 	.pipe(size({title: 'styles'}));
-
 });
 
 gulp.task('javascript', function () {
 	return gulp.src([
-		paths.javascript.src + '**/*.js'
-	])
+		paths.javascript.src + 'vendors/*.js',
+		paths.javascript.src + '*.js'
+		])
 	.pipe(jshint('.jshintrc'))
+	.pipe(jshint.reporter('default'))
+	.pipe(size({title: 'javascript'}))
 	.pipe(gulpif(argv.production, concat('app.js')))
 	.pipe(gulpif(argv.production, rename({suffix: '.min'})))
-	.pipe(gulpif(argv.production, uglify({preserveComments: 'some'}))) // Keep some comments
-	.pipe(gulp.dest((paths.javascript.dest)))
-	.pipe(size({title: 'javascript'}));
+	.pipe(gulpif(argv.production, uglify({preserveComments: 'some'})))// Keep some comments
+	.pipe(gulp.dest((paths.javascript.dest)));
 });
 
 gulp.task('templates', function() {
