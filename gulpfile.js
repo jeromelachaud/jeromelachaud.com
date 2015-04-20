@@ -8,6 +8,7 @@ var concat = require('gulp-concat');
 var del = require('del');
 var size = require('gulp-size');
 var gulpif = require('gulp-if');
+var htmlreplace = require('gulp-html-replace');
 var jade = require('gulp-jade');
 var jshint = require('gulp-jshint');
 var minifyCSS = require('gulp-minify-css');
@@ -89,6 +90,11 @@ gulp.task('templates', function() {
 		locals: YOUR_LOCALS,
 		pretty: true
 	}))
+    .pipe(gulpif(argv.production, htmlreplace({
+        'styles_vendors': 'css/vendors/bootstrap/bootstrap.min.css', // add some more if needed 
+        'styles': 'css/styles.min.css',
+        'js_production': 'js/app.min.js'
+    })))
 	.pipe(gulp.dest(basePaths.dest))
 	.pipe(size({title: 'html'}));
 });
