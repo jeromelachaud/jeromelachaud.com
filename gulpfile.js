@@ -27,19 +27,19 @@ var basePaths = {
 
 var paths = {
 	styles: {
-		src: basePaths.src + 'scss/',
+		src: basePaths.src + 'styles/',
 		dest: basePaths.dest + 'css/'
 	},
-	javascript: {
-		src: basePaths.src + 'js/',
+	scripts: {
+		src: basePaths.src + 'scripts/',
 		dest: basePaths.dest + 'js/'
 	},
 	images: {
-		src: basePaths.src + 'img/',
+		src: basePaths.src + 'images/',
 		dest: basePaths.dest + 'img/'
 	},
 	templates: {
-		src: basePaths.src + 'jade/',
+		src: basePaths.src + 'templates/',
 		dest: basePaths.dest
 	},
 	fonts: {
@@ -52,7 +52,7 @@ gulp.task('clean', function (cb) {
 	del([basePaths.dest], cb);
 });
 
-gulp.task('sass', function () {
+gulp.task('styles', function () {
 	return gulp.src([
 		paths.styles.src + '**/*.scss',
 	])
@@ -69,18 +69,18 @@ gulp.task('sass', function () {
 	.pipe(size({title: 'styles'}));
 });
 
-gulp.task('javascript', function () {
+gulp.task('scripts', function () {
 	return gulp.src([
-		paths.javascript.src + 'vendors/*.js',
-		paths.javascript.src + '*.js'
+		paths.scripts.src + 'vendors/*.js',
+		paths.scripts.src + '*.js'
 		])
 	.pipe(jshint('.jshintrc'))
 	.pipe(jshint.reporter('default'))
-	.pipe(size({title: 'javascript'}))
+	.pipe(size({title: 'scripts'}))
 	.pipe(gulpif(argv.production, concat('app.js')))
 	.pipe(gulpif(argv.production, rename({suffix: '.min'})))
 	.pipe(gulpif(argv.production, uglify({preserveComments: 'some'})))// Keep some comments
-	.pipe(gulp.dest((paths.javascript.dest)));
+	.pipe(gulp.dest((paths.scripts.dest)));
 });
 
 gulp.task('templates', function() {
@@ -91,9 +91,9 @@ gulp.task('templates', function() {
 		pretty: true
 	}))
     .pipe(gulpif(argv.production, htmlreplace({
-        'styles_vendors': 'css/vendors/bootstrap/bootstrap.min.css', // add some more if needed 
-        'styles': 'css/styles.min.css',
-        'js_production': 'js/app.min.js'
+	'styles_vendors': 'css/vendors/bootstrap/bootstrap.min.css', // add some more if needed
+	'styles': 'css/styles.min.css',
+	'js_production': 'js/app.min.js'
     })))
 	.pipe(gulp.dest(basePaths.dest))
 	.pipe(size({title: 'html'}));
@@ -121,13 +121,13 @@ gulp.task('default', ['builder'], function() {
 			baseDir: basePaths.dest
 		}
 	});
-	gulp.watch(paths.styles.src + '**/*.scss', ['sass']);
-	gulp.watch(paths.javascript.src + '**/*.js', ['javascript', reload]);
+	gulp.watch(paths.styles.src + '**/*.scss', ['styles']);
+	gulp.watch(paths.scripts.src + '**/*.js', ['scripts', reload]);
 	gulp.watch(paths.templates.src + '**/*.jade', ['templates', reload]);
 	gulp.watch(paths.images.src + '**/*.*', ['images', reload]);
 	gulp.watch(paths.fonts.src + '**/*', ['fonts', reload]);
 });
 
 gulp.task('builder', ['clean'], function (cb) {
-	runSequence(['sass', 'javascript', 'templates', 'images', 'fonts'], cb);
+	runSequence(['styles', 'scripts', 'templates', 'images', 'fonts'], cb);
 });
