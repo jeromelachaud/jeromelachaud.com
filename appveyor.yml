@@ -19,8 +19,6 @@ environment:
 
 install:
   - ps: Install-Product node $env:nodejs_version
-
-install:
   - npm install
 
 build: off
