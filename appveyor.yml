@@ -9,8 +9,16 @@ init:
 
 environment:
   matrix:
-    - nodejs_version: 0.12
-    - nodejs_version: 1
+  # node.js
+  - nodejs_version: "0.11"
+  - nodejs_version: "0.12"
+  # io.js
+  - nodejs_version: "1.0"
+  allow_failures:
+    - nodejs_version: "0.11"
+
+install:
+  - ps: Install-Product node $env:nodejs_version
 
 install:
   - npm install
