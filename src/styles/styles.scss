@@ -1,3 +1,19 @@
-@import 'normalize';
-@import 'variables';
-@import 'fonts';
+// @import 'vendors/bootstrap/bootstrap';
+
+// Utils
+@import 'utils/normalize';
+
+// Base
+@import 'base/variables';
+@import 'base/base';
+
+// Layout
+@import 'layout/grid';
+@import 'layout/header';
+@import 'layout/footer';
+
+// Modules
+@import 'modules/modules';
+
+// Pages
+@import 'pages/page';

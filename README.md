@@ -1,11 +1,5 @@
 # microFramework [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-url]][daviddm-image]
 Nothing fancy, just the basic stuff.
-- Jade
-- Scss
-- Bootstrap
-- Normalize
-- jQuery
-- BrowserSync
 
 Powered by Gulp
 

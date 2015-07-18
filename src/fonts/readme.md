@@ -1,1 +1,0 @@
-place your web fonts in this folder
