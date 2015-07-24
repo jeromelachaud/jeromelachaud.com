@@ -2,7 +2,11 @@
   "name": "microFramework",
   "version": "1.0.0",
   "description": "minimal front-end framework",
-  "dependencies": {
+  "author": "Jerome Lachaud",
+  "license": "MIT",
+  "repository": "https://github.com/jeromelachaud/microFramework.git",
+  "devDependencies": {
+    "gulp-html-extend": "^1.1.5",
     "browser-sync": "^2.2.2",
     "del": "^1.1.1",
     "gulp": "^3.8.11",
@@ -22,10 +26,7 @@
     "run-sequence": "^1.0.2",
     "yargs": "^3.5.4"
   },
-  "author": "Jerome Lachaud",
-  "license": "MIT",
-  "repository": "https://github.com/jeromelachaud/microFramework.git",
-  "devDependencies": {
-    "gulp-html-extend": "^1.1.5"
+  "dependencies": {
+    "jquery": "^2.1.4"
   }
 }
