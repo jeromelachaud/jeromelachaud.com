@@ -1,24 +1,22 @@
 'use strict';
 
-var gulp = require('gulp');
-var autoprefixer = require('gulp-autoprefixer');
-var argv = require('yargs').argv;
-var browserSync = require('browser-sync');
-var browserify = require('browserify');
-var concat = require('gulp-concat');
-var del = require('del');
-var size = require('gulp-size');
-var gulpif = require('gulp-if');
-var htmlreplace = require('gulp-html-replace');
-var minifyCSS = require('gulp-minify-css');
-var reload = browserSync.reload;
-var rename = require('gulp-rename');
-var runSequence = require('run-sequence');
-var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
-var imagemin = require('gulp-imagemin');
-var source = require('vinyl-source-stream');
-var sourcemaps = require('gulp-sourcemaps');
+var gulp = require('gulp'),
+	autoprefixer = require('gulp-autoprefixer'),
+	argv = require('yargs').argv,
+	browserSync = require('browser-sync'),
+	concat = require('gulp-concat'),
+	del = require('del'),
+	size = require('gulp-size'),
+	gulpif = require('gulp-if'),
+	htmlreplace = require('gulp-html-replace'),
+	minifyCSS = require('gulp-minify-css'),
+	reload = browserSync.reload,
+	rename = require('gulp-rename'),
+	runSequence = require('run-sequence'),
+	sass = require('gulp-sass'),
+	uglify = require('gulp-uglify'),
+	imagemin = require('gulp-imagemin'),
+	sourcemaps = require('gulp-sourcemaps');
 
 
 var basePaths = {
@@ -51,7 +49,6 @@ gulp.task('clean', function (cb) {
 
 gulp.task('html', function () {
 	gulp.src(basePaths.src + '*.html')
-	.pipe(extender({annotations:true,verbose:false})) // default options
 	.pipe(gulpif(argv.production, htmlreplace({
 		'styles_production': 'css/styles.min.css',
 		'js_production': 'js/main.min.js'
@@ -85,15 +82,6 @@ gulp.task('scripts', function () {
 	.pipe(gulpif(argv.production, rename({suffix: '.min'})))
 	.pipe(gulpif(argv.production, uglify({preserveComments: 'some'})))// Keep some comments
 	.pipe(gulp.dest((paths.scripts.dest)));
-});
-
-gulp.task('browserify', function() {
-    return browserify('js/main.js')
-        .bundle()
-        //Pass desired output filename to vinyl-source-stream
-        .pipe(source('bundle.js'))
-        // Start piping stream to tasks!
-        .pipe(gulp.dest('./build/'));
 });
 
 gulp.task('images', function () {
