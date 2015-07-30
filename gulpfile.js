@@ -88,7 +88,10 @@ gulp.task('images', function () {
 	return gulp.src(paths.images.src + '**/*.*')
 	.pipe(imagemin({
 		progressive: true,
-		optimizationLevel : 8
+		optimizationLevel : 8,
+		svgoPlugins: [
+			{ convertShapeToPath:false }
+		]
 	}))
 	.pipe(gulp.dest(paths.images.dest))
 	.pipe(size({title: 'images'}));
