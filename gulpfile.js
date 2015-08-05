@@ -44,7 +44,7 @@ var paths = {
 	}
 };
 
-var uglifySrc = [
+var scriptsSrc = [
 	/** jQuery */
 	"src/scripts/vendor/jquery-1.11.3.min.js",
 	/** Plugins */
@@ -73,7 +73,7 @@ gulp.task('html', function () {
 
 gulp.task('styles', function () {
 	return gulp.src([
-		paths.styles.src + '**/*.*',
+		paths.styles.src + '**/*.scss'
 	])
 	.pipe(gulpif(argv.dev, sourcemaps.init()))
 	.pipe(sass({errLogToConsole: true}))
@@ -88,23 +88,25 @@ gulp.task('styles', function () {
 	.pipe(size({title: 'styles'}));
 });
 
-gulp.task('scripts-vendor', function () {
-	return gulp.src ([paths.scripts.src + 'vendor/*.js'])
-	.pipe(gulp.dest((paths.scripts.dest + 'vendor')))
-});
-
-gulp.task('scripts-plugin', function () {
-	return gulp.src ([paths.scripts.src + 'plugin/*.js'])
-	.pipe(gulp.dest((paths.scripts.dest + 'plugin')))
+gulp.task('stylesIe', function () {
+	gulp.src(paths.styles.src + 'ie/*.*')
+	.pipe(gulp.dest(paths.styles.dest + 'ie/'))
+	.pipe(size({title: 'stylesIe'}));
 });
 
 gulp.task('scripts', function () {
-	return gulp.src( uglifySrc )
+	return gulp.src( scriptsSrc )
 	.pipe(size({title: 'scripts'}))
 	.pipe(gulpif(argv.production, concat('scripts.js')))
 	.pipe(gulpif(argv.production, rename({suffix: '.min'})))
 	.pipe(gulpif(argv.production, uglify({preserveComments: 'some'})))// Keep some comments
 	.pipe(gulp.dest((paths.scripts.dest)));
+});
+
+gulp.task('scriptsIe', function () {
+	gulp.src(paths.scripts.src + 'ie/*.js')
+	.pipe(gulp.dest(paths.scripts.dest + 'ie/'))
+	.pipe(size({title: 'scriptsIe'}));
 });
 
 gulp.task('images', function () {
@@ -120,7 +122,7 @@ gulp.task('images', function () {
 	.pipe(size({title: 'images'}));
 });
 
-gulp.task('fonts', function() {
+gulp.task('fonts', function () {
 	gulp.src(paths.fonts.src + '**/*.*')
 	.pipe(gulp.dest(paths.fonts.dest))
 	.pipe(size({title: 'fonts'}));
@@ -140,5 +142,5 @@ gulp.task('default', ['builder'], function() {
 });
 
 gulp.task('builder', ['clean'], function (cb) {
-	runSequence(['html','styles', 'scripts-vendor','scripts-plugin','scripts', 'images', 'fonts'], cb);
+	runSequence(['html','styles', 'scripts', 'scriptsIe', 'stylesIe', 'images', 'fonts'], cb);
 });
