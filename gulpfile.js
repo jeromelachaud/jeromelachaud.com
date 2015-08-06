@@ -95,7 +95,7 @@ gulp.task('stylesIe', function () {
 });
 
 gulp.task('scripts', function () {
-	return gulp.src( scriptsSrc )
+	return gulp.src( scriptsSrc ,  {base: "./src/scripts/"})
 	.pipe(size({title: 'scripts'}))
 	.pipe(gulpif(argv.production, concat('scripts.js')))
 	.pipe(gulpif(argv.production, rename({suffix: '.min'})))
