@@ -59,7 +59,7 @@ var scriptsSrc = [
 
 
 gulp.task('clean', function (cb) {
-	del([basePaths.dest], cb);
+	del([basePaths.root], cb);
 });
 
 gulp.task('html', function () {
