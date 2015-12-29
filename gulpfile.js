@@ -62,13 +62,18 @@ gulp.task('clean', function (cb) {
 	del([basePaths.root], cb);
 });
 
+gulp.task('favicon', function () {
+	gulp.src(basePaths.src + 'favicon.ico')
+	.pipe(gulp.dest(basePaths.root))
+})
+
 gulp.task('html', function () {
 	gulp.src(basePaths.src + '*.html')
 	.pipe(gulpif(argv.production, htmlreplace({
 		'styles_production': 'assets/css/main.min.css',
 		'scripts_production': 'assets/js/scripts.min.js'
 	})))
-	.pipe(gulp.dest((basePaths.root)));
+	.pipe(gulp.dest(basePaths.root));
 });
 
 gulp.task('styles', function () {
@@ -142,5 +147,5 @@ gulp.task('default', ['builder'], function() {
 });
 
 gulp.task('builder', ['clean'], function (cb) {
-	runSequence(['html','styles', 'scripts', 'scriptsIe', 'stylesIe', 'images', 'fonts'], cb);
+	runSequence(['html','styles', 'scripts', 'scriptsIe', 'stylesIe', 'images', 'fonts', 'favicon'], cb);
 });
