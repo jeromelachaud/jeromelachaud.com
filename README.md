@@ -1,13 +1,9 @@
-# microFramework [![Build Status][travis-image]][travis-url]
-Nothing fancy, just the basic stuff.
+[![Build Status][travis-image]][travis-url]
 
-Powered by Gulp
+Source code for http://jeromelachaud.com
 
-## usage
-- run "gulp --dev" for developement
-- run "gulp --production" for production (no sourcemaps + minify + uglify)
+Powered by [microFramework]
 
-[travis-url]: https://travis-ci.org/jeromelachaud/microFramework
-[travis-image]: https://travis-ci.org/jeromelachaud/microFramework.svg?branch=master
-[daviddm-url]: https://david-dm.org/jeromelachaud/microframework.svg?style=flat
-[daviddm-image]: https://david-dm.org/jeromelachaud/microframework
+[travis-url]: https://travis-ci.org/jeromelachaud/jeromelachaud.com
+[travis-image]: https://travis-ci.org/jeromelachaud/jeromelachaud.com.svg?branch=master
+[microFramework]: https://github.com/jeromelachaud/microFramework
