@@ -3,7 +3,7 @@
 var gulp = require('gulp'),
   autoprefix= require('gulp-autoprefixer'),
   argv = require('yargs').argv,
-  browserSyn= require('browser-sync'),
+  browserSync = require('browser-sync'),
   concat = require('gulp-concat'),
   del = require('del'),
   size = require('gulp-size'),
