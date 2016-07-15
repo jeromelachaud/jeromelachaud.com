@@ -133,7 +133,7 @@ gulp.task('fonts', function () {
   .pipe(size({title: 'fonts'}));
 });
 
-gulp.task('default', ['builder'], function() {
+gulp.task('server', function() {
   browserSync({
     server: {
       baseDir: basePaths.root
@@ -146,6 +146,10 @@ gulp.task('default', ['builder'], function() {
   gulp.watch(basePaths.src + '**/*.html', ['html', reload]);
 });
 
-gulp.task('builder', ['clean'], function (cb) {
+gulp.task('watch', ['clean'], function (cb) {
+  runSequence(['server','html','styles', 'scripts', 'scriptsIe', 'stylesIe', 'images', 'fonts', 'favicon'], cb);
+});
+
+gulp.task('build', ['clean'], function (cb) {
   runSequence(['html','styles', 'scripts', 'scriptsIe', 'stylesIe', 'images', 'fonts', 'favicon'], cb);
 });
