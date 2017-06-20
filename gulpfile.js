@@ -46,15 +46,18 @@ var paths = {
 
 var scriptsSrc = [
   /** jQuery */
-  "src/scripts/vendor/jquery-1.11.3.min.js",
+  'src/scripts/vendor/jquery-1.11.3.min.js',
+
   /** Plugins */
-  "src/scripts/plugin/jquery.scrollex.min.js",
-  "src/scripts/plugin/jquery.scrolly.min.js",
+  'src/scripts/plugin/jquery.scrollex.min.js',
+  'src/scripts/plugin/jquery.scrolly.min.js',
+
   /** libs */
-  "src/scripts/skel.min.js",
-  "src/scripts/util.js",
+  'src/scripts/skel.min.js',
+  'src/scripts/util.js',
+
   /** Page scripts */
-  "src/scripts/main.js"
+  'src/scripts/main.js'
 ];
 
 
@@ -64,8 +67,8 @@ gulp.task('clean', function (cb) {
 
 gulp.task('favicon', function () {
   gulp.src(basePaths.src + 'favicon.ico')
-  .pipe(gulp.dest(basePaths.root))
-})
+  .pipe(gulp.dest(basePaths.root));
+});
 
 gulp.task('html', function () {
   gulp.src(basePaths.src + '*.html')
@@ -100,7 +103,7 @@ gulp.task('stylesIe', function () {
 });
 
 gulp.task('scripts', function () {
-  return gulp.src( scriptsSrc ,  {base: "./src/scripts/"})
+  return gulp.src( scriptsSrc ,  {base: './src/scripts/'})
   .pipe(size({title: 'scripts'}))
   .pipe(gulpif(argv.production, concat('scripts.js')))
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
