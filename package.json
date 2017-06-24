@@ -5,6 +5,9 @@
   "author": "Jerome Lachaud",
   "license": "MIT",
   "repository": "https://github.com/jeromelachaud/microFramework.git",
+  "scripts": {
+    "watch": "gulp watch"
+  },
   "devDependencies": {
     "gulp-html-extend": "^1.1.5",
     "browser-sync": "^2.2.2",
