@@ -6,7 +6,8 @@
   "license": "MIT",
   "repository": "https://github.com/jeromelachaud/microFramework.git",
   "scripts": {
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "build": "gulp build --production"
   },
   "devDependencies": {
     "gulp-html-extend": "^1.1.5",
