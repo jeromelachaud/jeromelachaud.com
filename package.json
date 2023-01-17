@@ -12,7 +12,7 @@
   "devDependencies": {
     "gulp-html-extend": "^1.1.5",
     "browser-sync": "^2.2.2",
-    "del": "^1.1.1",
+    "del": "^7.0.0",
     "gulp": "^3.8.11",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-concat": "^2.4.3",
