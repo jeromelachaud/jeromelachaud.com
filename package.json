@@ -28,7 +28,7 @@
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "run-sequence": "^1.0.2",
-    "yargs": "^3.5.4"
+    "yargs": "^17.7.0"
   },
   "dependencies": {
     "jquery": "^3.6.3"
